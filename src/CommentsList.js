@@ -6,6 +6,7 @@ import uuid from 'uuid';
 
 function CommentsList({ currPost, updateComments }) {
   const comments = currPost.comments.map(c => 
+  <CommentItem postId={currPost.id} comment={c} />
 
   );
 
