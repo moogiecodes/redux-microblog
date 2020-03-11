@@ -20,9 +20,8 @@ function CommentForm({ addComment }) {
   }
 
   return (
-
     <Form>
-      <Input name="comment-form" id="comment-form" placeholder="New Comment" />
+      <Input name="comment-form" id="comment-form" placeholder="New Comment" onChange={handleChange} />
       <Button onSubmit={handleSubmit}>Add</Button>
     </Form>
   );
