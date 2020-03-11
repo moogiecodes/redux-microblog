@@ -8,43 +8,49 @@ import { v4 as uuid } from 'uuid';
 function Routes() {
   const [isEditing, setIsEditing] = useState(false);
   const [posts, setPosts] = useState([]);
+  // const [comments, setComments] = useState([])
 
   const addPost = post => {
-    let newPost = { ...post, id: uuid() };
+    let newPost = { ...post, id: uuid(), comments: [] };
     setPosts(posts => [...posts, newPost]);
-    console.log(posts);
   }
-  // methods needs to find the post by the id and update the properties 
-  // from form data. 
-  const updatePost = (id, post) => {
-    let updatedPost = { ...post};
-    for(let p of posts) {
-      if (p.id === id) {
-        let currentPost = p;
-        currentPost.title = post.title;
-        currentPost.description = post.description;
-        currentPost.body = post.body;
-      }
-    }
-    setPosts(posts => [...posts, newPost]);
-    console.log(posts);
+
+  // replaces old post with updated form data
+  // reset posts with updated post
+  const updatePost = (fData, id) => {
+    const newPosts = posts.map(p => p.id === id ?
+      { ...p, ...fData } : p);
+    setPosts(newPosts);
+    setIsEditing(!isEditing);
   }
- 
+
   const deletePost = (id) => {
-   const newPosts = posts.filter(post => post.id !== id);
-   setPosts(newPosts);
+    const newPosts = posts.filter(post => post.id !== id);
+    setPosts(newPosts);
+  }
+
+  const updateComments = (fData, postId) => {
+    const newPosts = posts.map(p => p.id === postId ?
+      { ...p, comments: [...p.comments, fData] } : p);
+    setPosts(newPosts);
   }
 
   return (
     <Switch>
       <Route path="/" exact>
-        <TitleList posts={posts} />
+        <TitleList posts={posts} isEditing={isEditing} />
       </Route>
       <Route path="/new" exact>
         <PostForm isEditing={isEditing} addPost={addPost} />
       </Route>
       <Route path="/:postId" exact>
-        <PostDetails isEditing={isEditing} setIsEditing={setIsEditing}/>
+        <PostDetails
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          posts={posts}
+          updatePost={updatePost}
+          deletePost={deletePost}
+          updateComments={updateComments} />
       </Route>
       <Redirect to="/" />
       {/* Make a 404 page ??? */}

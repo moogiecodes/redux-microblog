@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+// ADD REACTSTRAP 
 
-function PostForm({ addPost, isEditing, updatePost, deletePost }) {
+function PostForm({ addPost, isEditing, updatePost, deletePost, id }) {
   const history = useHistory();
 
   const INITIAL_STATE = {
@@ -19,7 +20,7 @@ function PostForm({ addPost, isEditing, updatePost, deletePost }) {
 
   const saveEdit = e => {
     e.preventDefault();
-    updatePost(form);
+    updatePost(form, id);
     history.push('/');
   };
 
