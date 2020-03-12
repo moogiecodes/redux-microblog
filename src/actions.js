@@ -10,28 +10,27 @@ export function addPost(post) {
 export function updatePost(post, id) {
   return {
     type: UPDATE_POST,
-    payload: {id, post}
+    payload: { id, post }
   }
 }
 
 export function removePost(id) {
   return {
     type: REMOVE_POST,
-    payload: {}
+    payload: { id }
   }
 }
 
-
-export function addComment(post) {
+export function addComment(comment, postId) {
   return {
     type: ADD_COMMENT,
-    payload: {}
+    payload: { comment, postId }
   }
 }
 
-export function removeComment(id) {
+export function removeComment(postId, commentId) {
   return {
     type: REMOVE_COMMENT,
-    payload: {}
+    payload: { postId, commentId }
   }
 }

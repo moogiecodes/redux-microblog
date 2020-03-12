@@ -2,23 +2,30 @@ import React from 'react';
 import CommentForm from './CommentForm';
 import { ListGroup } from 'reactstrap';
 import CommentItem from './CommentItem';
-import { v4 as uuid } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { addComment, removeComment } from './actions';
 
-function CommentsList({ currPost, updateComments, removeComment }) {
+function CommentsList({ postId, currPost }) {
+  const dispatch = useDispatch();
 
-  const comments = currPost.comments.map(c =>
+  const commentIds = Object.keys(currPost.comments);
+  const comments = commentIds.map(cId =>
     <CommentItem
       postId={currPost.id}
-      key={c.id}
-      comment={c}
-      removeComment={removeComment} />
-
+      key={cId}
+      commentId={cId}
+      commentText={currPost.comments[cId].text}
+      removeComment={deleteComment} />
   );
 
-  const addComment = (fData) => {
-    console.log("IN ADD COMMENT METHOD OF COMMENTS LIST...Form data is..", fData);
-    let newComment = { ...fData, id: uuid() }
-    updateComments(newComment, currPost.id);
+  //UPDATE COMMENT button 
+  const updateComments = (fData) => {
+    console.log("FORM DATA FROM COMMENT FORM", fData);
+    dispatch(addComment(fData, postId));
+  }
+
+  const deleteComment = (commentId) => {
+    dispatch(removeComment(postId, commentId));
   }
 
   return (
@@ -27,7 +34,7 @@ function CommentsList({ currPost, updateComments, removeComment }) {
       <ListGroup>
         {comments}
       </ListGroup>
-      <CommentForm addComment={addComment} />
+      <CommentForm updateComments={updateComments} />
     </div>
   );
 }

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
 import { Col, FormGroup, Form, Label, Input, Container, Button } from 'reactstrap';
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addPost, updatePost } from './actions';
 
-function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) {
+function PostForm({ isEditing, setIsEditing, currPost, postId }) {
+  const dispatch = useDispatch();
   const history = useHistory();
+
   let INITIAL_STATE = {
     title: "",
     description: "",
@@ -17,25 +21,21 @@ function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) 
       body: currPost.body
     };
   }
+
   const [form, setForm] = useState(INITIAL_STATE);
 
-  const saveNew = e => {
-    e.preventDefault();
-    addPost(form);
+  //SAVE button (add new post)
+  const newPost = () => {
+    dispatch(addPost(form));
     history.push('/');
-  };
+  }
 
-  const saveEdit = e => {
-    e.preventDefault();
-    updatePost(form, id);
+  //SAVE button (edit existing post)
+  const editPost = () => {
+    dispatch(updatePost(form, postId));
     history.push('/');
-  };
-
-  const deleteButton = e => {
-    e.preventDefault();
-    deletePost(id);
-    history.push('/');
-  };
+    setIsEditing(!isEditing);
+  }
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -47,7 +47,7 @@ function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) 
 
   let newFormButtons = (
     <span>
-      <Button className="NewPostForm-button ml-2 mr-2 mt-5" onClick={saveNew}>Save</Button>
+      <Button className="NewPostForm-button ml-2 mr-2 mt-5" onClick={newPost}>Save</Button>
       <Link to="/">
         <Button className="Cancel-button ml-2 mr-2 mt-5">Cancel</Button>
       </Link>
@@ -56,8 +56,8 @@ function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) 
 
   let editFormButtons = (
     <span>
-      <button className="NewPostForm-button ml-1 mr-1 mt-5" onClick={saveEdit}>Save</button>
-      <button className="Cancel-button ml-1 mr-1 mt-5" onClick={deleteButton}>Delete</button>
+      <button className="NewPostForm-button ml-1 mr-1 mt-5" onClick={editPost}>Save</button>
+      <button className="Cancel-button ml-1 mr-1 mt-5" onClick={() => setIsEditing(!isEditing)}>Cancel</button>
     </span>
   );
   return (
@@ -73,7 +73,6 @@ function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) 
               onChange={handleChange}
               bsSize='sm'
             />
-
             <Label htmlFor="description" className='float-left'>Description: </Label>
             <Input
               id="description"
@@ -82,8 +81,6 @@ function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) 
               onChange={handleChange}
               bsSize='sm'
             />
-
-
             <Label htmlFor="body" className='float-left'>Body: </Label>
             <Input
               type="textarea"
@@ -93,7 +90,6 @@ function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) 
               onChange={handleChange}
               bsSize='sm'
             />
-
             {isEditing ? editFormButtons : newFormButtons}
           </Form>
         </Col>

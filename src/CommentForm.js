@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Col, FormGroup, Form, Input, Button } from 'reactstrap';
 
-function CommentForm({ addComment }) {
+function CommentForm({ updateComments }) {
   const INITIAL_STATE = {
     text: ""
   }
@@ -17,7 +17,7 @@ function CommentForm({ addComment }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addComment(form);
+    updateComments(form);
     setForm(INITIAL_STATE);
   }
   /** NG - BUG FIXES
@@ -33,12 +33,12 @@ function CommentForm({ addComment }) {
       <FormGroup row>
         <Col sm="12" md={{ size: 6, offset: 3 }}>
           <Form className='mx-auto'>
-            <Input 
-            name="text" 
-            id="text" 
-            value={form.text} 
-            placeholder="New Comment" 
-            onChange={handleChange} />
+            <Input
+              name="text"
+              id="text"
+              value={form.text}
+              placeholder="New Comment"
+              onChange={handleChange} />
             <Button className='ml-1 mr-1 mt-4' onClick={handleSubmit}>Add</Button>
           </Form>
         </Col>

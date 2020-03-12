@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import TitleList from './TitleList';
 import NewPostContainer from './NewPostContainer';
+import PostDetails from './PostDetails';
 
 function App() {
   return (
@@ -12,13 +13,13 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/">
-          <TitleList/>
+          <TitleList />
         </Route>
         <Route exact path="/new">
-          <NewPostContainer/>
+          <NewPostContainer />
         </Route>
         <Route exact path="/:postId">
-
+          <PostDetails />
         </Route>
         <Redirect to="/" />
       </Switch>

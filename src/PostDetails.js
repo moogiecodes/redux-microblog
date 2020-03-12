@@ -1,59 +1,59 @@
-import React from 'react';
-import { useParams, useHistory, Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardTitle, CardText, Badge } from 'reactstrap';
 import PostForm from './PostForm';
 import CommentsList from './CommentsList';
+import { useSelector, useDispatch } from 'react-redux';
+import { removePost } from './actions';
 
-function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, updateComments, removeComment }) {
+function PostDetails() {
+
+  console.log("IN POST DETAILS COMPONENT");
+
+  const posts = useSelector(st => st.posts);
   const { postId } = useParams();
-  const currPost = posts.filter(p => p.id === postId)[0];
+  const currPost = posts[postId];
+  const dispatch = useDispatch();
   const history = useHistory();
-  
-  if(!currPost) {
-    history.push('/');
-  }
-  // EDIT button method 
-  const editPost = () => {
-    setIsEditing(true);
-  }
+  const [isEditing, setIsEditing] = useState(false);
 
-  const deleteButton = () => {
-    deletePost(postId);
+  if (!currPost) {
     history.push('/');
   }
 
-  //**EDIT BADGE ON CLICK, doesn't seem to like onClick */
-  let jsxDetails;
+  // DELETE button method 
+  const deletePost = (id) => {
+    dispatch(removePost(id));
+  }
+
+  let postDetails;
   if (currPost) {
-  jsxDetails = (
-    <div>
-      <Card className="text-left" >
-        <CardHeader className="text-left">{currPost.title}</CardHeader>
-        <CardBody>
-          <CardTitle className="text-left">{currPost.description}</CardTitle>
-          <CardText className="text-left">{currPost.body}</CardText>
-          <Badge onClick={editPost} color="primary">Edit</Badge>
-          <Badge onClick={deleteButton} color="danger">Delete</Badge>
-        </CardBody>
-      </Card>
-      <CommentsList 
-        currPost={currPost} 
-        updateComments={updateComments} 
-        removeComment={removeComment} />
-    </div>
+    postDetails = (
+      <div>
+        <Card className="text-left" >
+          <CardHeader className="text-left">{currPost.title}</CardHeader>
+          <CardBody>
+            <CardTitle className="text-left">{currPost.description}</CardTitle>
+            <CardText className="text-left">{currPost.body}</CardText>
+            <Badge onClick={() => setIsEditing(!isEditing)} color="primary">Edit</Badge>
+            <Badge onClick={deletePost} color="danger">Delete</Badge>
+          </CardBody>
+        </Card>
+        <CommentsList postId={postId} currPost={currPost} />
+      </div>
     )
   } else {
-    jsxDetails = null;
+    postDetails = null;
   }
+
   return (
     <div>
       {isEditing ?
         <PostForm isEditing={isEditing}
-          updatePost={updatePost}
-          deletePost={deletePost}
+          setIsEditing={setIsEditing}
           currPost={currPost}
           id={postId} /> :
-        jsxDetails
+        postDetails
       }
     </div>
 
