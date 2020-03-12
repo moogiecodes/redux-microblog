@@ -7,7 +7,7 @@ function BlogPostCard({ title, description, postId }) {
   //links to detail page of post
   return (
     <div>
-      <Card body outline color="secondary">
+      <Card body outline color="secondary" className='ml-5 mr-5'>
         <Link to={`/${postId}`} >
           <CardTitle>{title}</CardTitle>
         </Link >

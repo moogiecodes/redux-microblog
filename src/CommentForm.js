@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'reactstrap';
+import { Container, Col, FormGroup, Form, Input, Button } from 'reactstrap';
 
 function CommentForm({ addComment }) {
   const INITIAL_STATE = {
@@ -20,10 +20,16 @@ function CommentForm({ addComment }) {
   }
 
   return (
-    <Form>
-      <Input name="comment-form" id="comment-form" placeholder="New Comment" onChange={handleChange} />
-      <Button onSubmit={handleSubmit}>Add</Button>
-    </Form>
+    <Container className="themed-container " fluid="sm">
+      <FormGroup row>
+        <Col sm="12" md={{ size: 6, offset: 3 }}>
+          <Form className='mx-auto'>
+            <Input name="comment-form" id="comment-form" placeholder="New Comment" onChange={handleChange} />
+            <Button className='ml-1 mr-1 mt-4' onSubmit={handleSubmit}>Add</Button>
+          </Form>
+        </Col>
+      </FormGroup>
+    </Container>
   );
 }
 

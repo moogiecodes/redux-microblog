@@ -1,22 +1,23 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { Jumbotron } from 'reactstrap';
 
 function NavBar() {
-    return (
-    <nav>
-      <NavLink to="/">
-        Microblog
+  return (
+    <Jumbotron fluid>
+      <NavLink to="/" className='text-decoration-none'>
+        <h1 className='display-3'>Microblog</h1>
       </NavLink>
-      <div>
-        <NavLink to="/">
+      <span>
+        <NavLink exact to="/" className='mr-2 ml-2 text-decoration-none'>
           Blog
-        </NavLink> {' '}
-        <NavLink to="/new">
+        </NavLink>
+        <NavLink exact to="/new" className='mr-2 ml-2 text-decoration-none'>
           Add a new post
         </NavLink>
-      </div>
-    </nav>
-    )
-  }
+      </span>
+    </Jumbotron>
+  )
+}
 
 export default NavBar;

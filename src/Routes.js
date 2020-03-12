@@ -35,12 +35,12 @@ function Routes() {
     setPosts(newPosts);
   }
 
-  const removeComment = (postId, id) => {
-    const newPosts = posts.map(p => p.id === postId ? ()
-      let oldComments = p.comments
-      { ...p, comments: [...p.comments, fData] } : p);
-    setPosts(newPosts);
-  }
+  // const removeComment = (postId, id) => {
+  //   const newPosts = posts.map(p => p.id === postId ? ()
+  //     let oldComments = p.comments
+  //     { ...p, comments: [...p.comments, fData] } : p);
+  //   setPosts(newPosts);
+  // }
 
   return (
     <Switch>

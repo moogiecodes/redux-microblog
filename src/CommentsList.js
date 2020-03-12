@@ -2,15 +2,16 @@ import React from 'react';
 import CommentForm from './CommentForm';
 import { ListGroup } from 'reactstrap';
 import CommentItem from './CommentItem';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 function CommentsList({ currPost, updateComments }) {
-  const comments = currPost.comments.map(c => 
-  <CommentItem postId={currPost.id} comment={c} />
+  const comments = currPost.comments.map(c =>
+    <CommentItem postId={currPost.id} comment={c} />
 
   );
 
   const addComment = (fData) => {
+    console.log("IN ADD COMMENT METHOD OF COMMENTS LIST...Form data is..", fData);
     let newComment = { ...fData, id: uuid() }
     updateComments(newComment, currPost.id);
   }

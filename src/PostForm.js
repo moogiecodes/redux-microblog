@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// ADD REACTSTRAP 
+import { Col, FormGroup, Form, Label, Input, Container, Button } from 'reactstrap';
 
 function PostForm({ addPost, isEditing, updatePost, deletePost, id }) {
   const history = useHistory();
@@ -40,48 +40,58 @@ function PostForm({ addPost, isEditing, updatePost, deletePost, id }) {
 
   let newFormButtons = (
     <span>
-      <button className="NewPostForm-button" onClick={saveNew}>Save</button>
+      <Button className="NewPostForm-button ml-2 mr-2 mt-5" onClick={saveNew}>Save</Button>
       <Link to="/">
-        <button className="Cancel-button">Cancel</button>
+        <Button className="Cancel-button ml-2 mr-2 mt-5">Cancel</Button>
       </Link>
     </span>
   );
 
   let editFormButtons = (
     <span>
-      <button className="NewPostForm-button" onClick={saveEdit}>Save</button>
-      <button className="Cancel-button" onClick={deleteButton}>Delete</button>
+      <button className="NewPostForm-button ml-1 mr-1 mt-5" onClick={saveEdit}>Save</button>
+      <button className="Cancel-button ml-1 mr-1 mt-5" onClick={deleteButton}>Delete</button>
     </span>
   );
   return (
-    <div className="container">
-      <form className="NewPostForm">
-        <label htmlFor="title">Title: </label>
-        <input
-          id="title"
-          name="title"
-          value={form.title}
-          onChange={handleChange}
-        />
+    <Container className="themed-container" fluid="sm">
+      <FormGroup row>
+        <Col sm="12" md={{ size: 6, offset: 3 }}>
+          <Form className='mx-auto'>
+            <Label htmlFor="title" className='float-left'>Title: </Label>
+            <Input
+              id="title"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              bsSize='sm'
+            />
 
-        <label htmlFor="description">Description: </label>
-        <input
-          id="description"
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-        />
+            <Label htmlFor="description" className='float-left'>Description: </Label>
+            <Input
+              id="description"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              bsSize='sm'
+            />
 
-        <label htmlFor="body">Body: </label>
-        <input
-          id="body"
-          name="body"
-          value={form.body}
-          onChange={handleChange}
-        />
-        {isEditing ? editFormButtons : newFormButtons}
-      </form>
-    </div>
+
+            <Label htmlFor="body" className='float-left'>Body: </Label>
+            <Input
+              type="textarea"
+              id="body"
+              name="body"
+              value={form.body}
+              onChange={handleChange}
+              bsSize='sm'
+            />
+
+            {isEditing ? editFormButtons : newFormButtons}
+          </Form>
+        </Col>
+      </FormGroup>
+    </Container>
   )
 }
 
