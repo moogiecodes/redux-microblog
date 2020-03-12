@@ -4,6 +4,7 @@ import TitleList from './TitleList';
 import PostForm from './PostForm';
 import PostDetails from './PostDetails';
 import { v4 as uuid } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Routes() {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,8 +12,9 @@ function Routes() {
   // const [comments, setComments] = useState([])
 
   const addPost = post => {
-    let newPost = { ...post, id: uuid(), comments: [] };
-    setPosts(posts => [...posts, newPost]);
+    let newPost = { ...post, id: uuid(), comments: {} };
+    // will be dispatch...
+    // setPosts(posts => [...posts, newPost])
   }
 
   // replaces old post with updated form data
@@ -40,7 +42,7 @@ function Routes() {
     const oldComments = [...foundPost.comments];
     const updatedComments = oldComments.filter(c => c.id !== id);
     const newPosts = posts.map(p => p.id === postId ?
-      {...p, comments: [...updatedComments]} : p);
+      { ...p, comments: [...updatedComments] } : p);
     setPosts(newPosts);
   }
   return (
@@ -58,8 +60,8 @@ function Routes() {
           posts={posts}
           updatePost={updatePost}
           deletePost={deletePost}
-          updateComments={updateComments} 
-          removeComment={removeComment}/>
+          updateComments={updateComments}
+          removeComment={removeComment} />
       </Route>
       <Redirect to="/" />
       {/* Make a 404 page ??? */}
