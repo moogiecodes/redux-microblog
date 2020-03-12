@@ -36,7 +36,6 @@ function Routes() {
   }
 
   const removeComment = (postId, id) => {
-    console.log("Success! got back to Routes!", postId, id)
     const foundPost = posts.find(p => p.id === postId)
     const oldComments = [...foundPost.comments];
     const updatedComments = oldComments.filter(c => c.id !== id);

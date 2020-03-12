@@ -9,8 +9,9 @@ function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, u
   const currPost = posts.filter(p => p.id === postId)[0];
   const history = useHistory();
   
-  if(!currPost) return <Redirect to='/' />;
-
+  if(!currPost) {
+    history.push('/');
+  }
   // EDIT button method 
   const editPost = () => {
     setIsEditing(true);
@@ -22,7 +23,9 @@ function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, u
   }
 
   //**EDIT BADGE ON CLICK, doesn't seem to like onClick */
-  let jsxDetails = (
+  let jsxDetails;
+  if (currPost) {
+  jsxDetails = (
     <div>
       <Card className="text-left" >
         <CardHeader className="text-left">{currPost.title}</CardHeader>
@@ -38,7 +41,10 @@ function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, u
         updateComments={updateComments} 
         removeComment={removeComment} />
     </div>
-  )
+    )
+  } else {
+    jsxDetails = null;
+  }
   return (
     <div>
       {isEditing ?
