@@ -35,29 +35,32 @@ function Routes() {
     setPosts(newPosts);
   }
 
-  // const removeComment = (postId, id) => {
-  //   const newPosts = posts.map(p => p.id === postId ? ()
-  //     let oldComments = p.comments
-  //     { ...p, comments: [...p.comments, fData] } : p);
-  //   setPosts(newPosts);
-  // }
-
+  const removeComment = (postId, id) => {
+    console.log("Success! got back to Routes!", postId, id)
+    const foundPost = posts.find(p => p.id === postId)
+    const oldComments = [...foundPost.comments];
+    const updatedComments = oldComments.filter(c => c.id !== id);
+    const newPosts = posts.map(p => p.id === postId ?
+      {...p, comments: [...updatedComments]} : p);
+    setPosts(newPosts);
+  }
   return (
     <Switch>
-      <Route path="/" exact>
+      <Route exact path="/" >
         <TitleList posts={posts} isEditing={isEditing} />
       </Route>
-      <Route path="/new" exact>
+      <Route exact path="/new" >
         <PostForm isEditing={isEditing} addPost={addPost} />
       </Route>
-      <Route path="/:postId" exact>
+      <Route exact path="/:postId" >
         <PostDetails
           isEditing={isEditing}
           setIsEditing={setIsEditing}
           posts={posts}
           updatePost={updatePost}
           deletePost={deletePost}
-          updateComments={updateComments} />
+          updateComments={updateComments} 
+          removeComment={removeComment}/>
       </Route>
       <Redirect to="/" />
       {/* Make a 404 page ??? */}

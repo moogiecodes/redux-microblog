@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Col, FormGroup, Form, Label, Input, Container, Button } from 'reactstrap';
 
-function PostForm({ addPost, isEditing, updatePost, deletePost, id }) {
+function PostForm({ addPost, isEditing, updatePost, deletePost, id, currPost }) {
   const history = useHistory();
-
-  const INITIAL_STATE = {
+  let INITIAL_STATE = {
     title: "",
     description: "",
     body: ""
   };
+  // NG - uses currPost data to fill in form when editing. 
+  if (currPost) {
+    INITIAL_STATE = {
+      title: currPost.title,
+      description: currPost.description,
+      body: currPost.body
+    };
+  }
   const [form, setForm] = useState(INITIAL_STATE);
 
   const saveNew = e => {

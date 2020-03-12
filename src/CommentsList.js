@@ -4,9 +4,14 @@ import { ListGroup } from 'reactstrap';
 import CommentItem from './CommentItem';
 import { v4 as uuid } from 'uuid';
 
-function CommentsList({ currPost, updateComments }) {
+function CommentsList({ currPost, updateComments, removeComment }) {
+
   const comments = currPost.comments.map(c =>
-    <CommentItem postId={currPost.id} comment={c} />
+    <CommentItem
+      postId={currPost.id}
+      key={c.id}
+      comment={c}
+      removeComment={removeComment} />
 
   );
 

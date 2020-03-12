@@ -1,13 +1,16 @@
 import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Redirect } from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardTitle, CardText, Badge } from 'reactstrap';
 import PostForm from './PostForm';
 import CommentsList from './CommentsList';
 
-function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, updateComments }) {
+function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, updateComments, removeComment }) {
   const { postId } = useParams();
   const currPost = posts.filter(p => p.id === postId)[0];
   const history = useHistory();
+  
+  if(!currPost) return <Redirect to='/' />;
+
   // EDIT button method 
   const editPost = () => {
     setIsEditing(true);
@@ -21,16 +24,19 @@ function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, u
   //**EDIT BADGE ON CLICK, doesn't seem to like onClick */
   let jsxDetails = (
     <div>
-      <Card>
-        <CardHeader>{currPost.title}</CardHeader>
+      <Card className="text-left" >
+        <CardHeader className="text-left">{currPost.title}</CardHeader>
         <CardBody>
-          <CardTitle>{currPost.description}</CardTitle>
-          <CardText>{currPost.body}</CardText>
+          <CardTitle className="text-left">{currPost.description}</CardTitle>
+          <CardText className="text-left">{currPost.body}</CardText>
           <Badge onClick={editPost} color="primary">Edit</Badge>
           <Badge onClick={deleteButton} color="danger">Delete</Badge>
         </CardBody>
       </Card>
-      <CommentsList currPost={currPost} updateComments={updateComments} />
+      <CommentsList 
+        currPost={currPost} 
+        updateComments={updateComments} 
+        removeComment={removeComment} />
     </div>
   )
   return (
@@ -39,6 +45,7 @@ function PostDetails({ posts, isEditing, setIsEditing, updatePost, deletePost, u
         <PostForm isEditing={isEditing}
           updatePost={updatePost}
           deletePost={deletePost}
+          currPost={currPost}
           id={postId} /> :
         jsxDetails
       }
