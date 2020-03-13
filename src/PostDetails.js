@@ -4,21 +4,29 @@ import { Card, CardHeader, CardBody, CardTitle, CardText, Badge } from 'reactstr
 import PostForm from './PostForm';
 import CommentsList from './CommentsList';
 import { useSelector, useDispatch } from 'react-redux';
-import { removePost } from './actions';
+import { removePost, addComment } from './actions';
+import CommentForm from './CommentForm';
 
 function PostDetails() {
 
-  const posts = useSelector(st => st.posts);
   const { postId } = useParams();
-  const currPost = posts[postId];
+
+  const posts = useSelector(st => st.posts);
+  // console.log("from postdetails...", posts);
+  let currPost
+  if(posts) {
+    currPost = posts[postId];
+  }
   const dispatch = useDispatch();
   const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
 
-  if (!currPost) {
-    history.push('/');
+  // if (!currPost) {
+  //   history.push('/');
+  // }
+  const updateComments = (fData) => {
+    dispatch(addComment(fData, postId));
   }
-  
   const deletePost = () => {
     dispatch(removePost(postId));
     // NG - 03/12/20 - 5:39 PM added history.push('/') to redirect
@@ -40,6 +48,7 @@ function PostDetails() {
           </CardBody>
         </Card>
         <CommentsList postId={postId} currPost={currPost} />
+        <CommentForm updateComments={updateComments} />
       </div>
     )
   } else {

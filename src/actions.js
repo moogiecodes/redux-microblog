@@ -10,7 +10,7 @@ export function addPost(post) {
 export function updatePost(post, id) {
   return {
     type: UPDATE_POST,
-    payload: { id, post }
+    payload: { post, id }
   }
 }
 

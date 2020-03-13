@@ -1,31 +1,31 @@
 import React from 'react';
-import CommentForm from './CommentForm';
 import { ListGroup } from 'reactstrap';
 import CommentItem from './CommentItem';
 import { useDispatch } from 'react-redux';
-import { addComment, removeComment } from './actions';
+import {  removeComment } from './actions';
 
 function CommentsList({ postId, currPost }) {
   const dispatch = useDispatch();
 
-  const commentIds = Object.keys(currPost.comments);
-  const comments = commentIds.map(cId =>
+  const deleteComment = (commentId) => {
+    dispatch(removeComment(postId, commentId));
+  }
+
+  // const commentIds = Object.keys(currPost.comments);
+  console.log("currPost", currPost);
+
+  const comments = currPost.comments.map(c =>
     <CommentItem
-      postId={currPost.id}
-      key={cId}
-      commentId={cId}
-      commentText={currPost.comments[cId].text}
+      postId={postId}
+      key={c.id}
+      commentId={c.id}
+      commentText={c.text}
       removeComment={deleteComment} />
   );
 
   //UPDATE COMMENT button 
-  const updateComments = (fData) => {
-    dispatch(addComment(fData, postId));
-  }
+  
 
-  const deleteComment = (commentId) => {
-    dispatch(removeComment(postId, commentId));
-  }
 
   return (
     <div>
@@ -33,7 +33,7 @@ function CommentsList({ postId, currPost }) {
       <ListGroup>
         {comments}
       </ListGroup>
-      <CommentForm updateComments={updateComments} />
+      
     </div>
   );
 }

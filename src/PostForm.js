@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addPost, updatePost } from './actions';
 
-function PostForm({ isEditing, setIsEditing, currPost, postId }) {
+function PostForm({ isEditing, setIsEditing, currPost, id }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -31,9 +31,12 @@ function PostForm({ isEditing, setIsEditing, currPost, postId }) {
   }
 
   //SAVE button (edit existing post)
-  const editPost = () => {
-    dispatch(updatePost(form, postId));
-    history.push('/');
+  const editPost = e => {
+    // NG - added e.preventDefault
+    e.preventDefault();
+    // NG - props was declared as postId in PostForm but id was expected in from PostDetails.
+    dispatch(updatePost(form, id));
+    
     setIsEditing(!isEditing);
   }
 

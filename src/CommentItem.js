@@ -1,9 +1,12 @@
 import React from 'react';
 import { ListGroupItem, Button } from 'reactstrap';
+import { useDispatch } from 'react-redux';
+import {  removeComment } from './actions';
 
-function CommentItem({ deleteComment, commentText, commentId }) {
+function CommentItem({ postId, deleteComment, commentText, commentId }) {
+  const dispatch = useDispatch();
   const handleDelete = () => {
-    deleteComment(commentId);
+    dispatch(removeComment(postId, commentId));
   }
 
   return (
