@@ -16,6 +16,7 @@ function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, posts: { ...state.posts, ...newPost } };
 
     case UPDATE_POST:
+      console.log("UPDATE POST", action.payload)
       postId = action.payload.id;
       let updatedPost = {
         ...action.payload.post,
