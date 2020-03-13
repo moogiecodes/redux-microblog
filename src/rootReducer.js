@@ -25,19 +25,18 @@ function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, posts: { ...updatedPosts } };
 
     case REMOVE_POST:
+      // NG - Fixed delete but not sure if this is deep copy??
       postId = action.payload.id;
-      let postStateCopy = { ...state.posts };
+      
+      let postStateCopy = { ...state };
       delete postStateCopy.posts[postId]
       return { ...postStateCopy };
 
     case ADD_COMMENT:
-      console.log("ACTION PAYLOAD", action.payload);
       postId = action.payload.postId;
       let newComment = {
         [uuid()]: { ...action.payload.comment }
       };
-      console.log("STATE FROM ROOT REDUCER, ADD CMT", state);
-      console.log("POST ID IS...", postId);
       let updatedPostWComments = {
         ...state.posts[postId],
         comments: { ...state.posts[postId].comments, newComment }

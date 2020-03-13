@@ -20,14 +20,7 @@ function CommentForm({ updateComments }) {
     updateComments(form);
     setForm(INITIAL_STATE);
   }
-  /** NG - BUG FIXES
-   * `text` must be a keyword - changed to `comment` for value
-   *  was wrong about `text` name should be `text`. had comment-form as name. didn't
-   *  match key `text`...
-   *  changed `onSubmit` to `onClick` to fix bug - was crashing/reloading app
-   *  need to remove console.logs and function calls upstream...
-   *  TODO - Redirect to '/' causes app to reload and lose all state???
-   */
+  
   return (
     <Container className="themed-container " fluid="sm">
       <FormGroup row>

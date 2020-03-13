@@ -8,8 +8,6 @@ import { removePost } from './actions';
 
 function PostDetails() {
 
-  console.log("IN POST DETAILS COMPONENT");
-
   const posts = useSelector(st => st.posts);
   const { postId } = useParams();
   const currPost = posts[postId];
@@ -20,10 +18,12 @@ function PostDetails() {
   if (!currPost) {
     history.push('/');
   }
-
-  // DELETE button method 
-  const deletePost = (id) => {
-    dispatch(removePost(id));
+  
+  const deletePost = () => {
+    dispatch(removePost(postId));
+    // NG - 03/12/20 - 5:39 PM added history.push('/') to redirect
+    // after deleting post
+    history.push('/');
   }
 
   let postDetails;

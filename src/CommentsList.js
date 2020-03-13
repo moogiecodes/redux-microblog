@@ -20,7 +20,6 @@ function CommentsList({ postId, currPost }) {
 
   //UPDATE COMMENT button 
   const updateComments = (fData) => {
-    console.log("FORM DATA FROM COMMENT FORM", fData);
     dispatch(addComment(fData, postId));
   }
 
