@@ -1,8 +1,16 @@
-import { ADD_POST, REMOVE_POST, UPDATE_POST, ADD_COMMENT, REMOVE_COMMENT } from './actionTypes';
+import {
+  ADD_POST,
+  REMOVE_POST,
+  UPDATE_POST,
+  ADD_COMMENT,
+  REMOVE_COMMENT,
+  GET_TITLES
+} from './actionTypes';
 import { v4 as uuid } from 'uuid';
 
 const INITIAL_STATE = {
-  posts: {}
+  posts: {},
+  titles: []
 }
 
 function rootReducer(state = INITIAL_STATE, action) {
@@ -21,8 +29,8 @@ function rootReducer(state = INITIAL_STATE, action) {
         ...action.payload.post,
         comments: [...state.posts[postId].comments]
       };
-      return { posts: {...state.posts, [postId]: updatedPost}}
-  
+      return { posts: { ...state.posts, [postId]: updatedPost } }
+
 
     case REMOVE_POST:
       postId = action.payload.id;
@@ -64,6 +72,10 @@ function rootReducer(state = INITIAL_STATE, action) {
           }
         }
       }
+
+    case GET_TITLES:
+      return { posts: state.posts, titles: [...action.titles] }
+
     default:
       return state;
   }
