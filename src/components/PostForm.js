@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Col, FormGroup, Form, Label, Input, Container, Button } from 'reactstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addPost, updatePost } from './actions';
+import { addPost, updatePost } from '../actions/actions';
+import { sendPostToAPI } from '../actions/actions';
+
 
 function PostForm({ isEditing, setIsEditing, currPost, id }) {
   const dispatch = useDispatch();
@@ -25,8 +27,10 @@ function PostForm({ isEditing, setIsEditing, currPost, id }) {
   const [form, setForm] = useState(INITIAL_STATE);
 
   //SAVE button (add new post)
-  const newPost = () => {
-    dispatch(addPost(form));
+  const newPost = e => {
+    e.preventDefault();
+    console.log("ADDED NEW POST...FORM IS..", form);
+    dispatch(sendPostToAPI(form.title, form.description, form.body));
     history.push('/');
   }
 
@@ -36,14 +40,14 @@ function PostForm({ isEditing, setIsEditing, currPost, id }) {
     e.preventDefault();
     // NG - props was declared as postId in PostForm but id was expected in from PostDetails.
     dispatch(updatePost(form, id));
-    
+
     setIsEditing(!isEditing);
   }
 
   const handleChange = e => {
     const { name, value } = e.target;
-    setForm(form => ({
-      ...form,
+    setForm(data => ({
+      ...data,
       [name]: value
     }));
   };

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import BlogPostCard from './BlogPostCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTitlesFromApi } from './actions';
+import { getTitlesFromApi } from '../actions/actions';
 
 function TitleList() {
   // const posts = useSelector(st => st.posts);

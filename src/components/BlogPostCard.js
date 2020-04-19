@@ -3,7 +3,7 @@ import { Card, CardTitle, CardText } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 function BlogPostCard({ title, description, postId }) {
- 
+
   return (
     <div>
       <Card body outline color="secondary" className='ml-5 mr-5'>

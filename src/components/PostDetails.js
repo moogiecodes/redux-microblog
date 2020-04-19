@@ -4,22 +4,23 @@ import { Card, CardHeader, CardBody, CardTitle, CardText, Badge } from 'reactstr
 import PostForm from './PostForm';
 import CommentsList from './CommentsList';
 import { useSelector, useDispatch } from 'react-redux';
-import { removePost, addComment } from './actions';
+import { removePost, addComment } from '../actions/actions';
 import CommentForm from './CommentForm';
 
 function PostDetails() {
-
-  const { postId } = useParams();
-
-  const posts = useSelector(st => st.posts);
-  // console.log("from postdetails...", posts);
-  let currPost
-  if(posts) {
-    currPost = posts[postId];
-  }
+  const [isEditing, setIsEditing] = useState(false);
+  // const { postId } = useParams();
+  const postId = Number(useParams().postId);
+  const currPost = useSelector(st => st.posts[postId]);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [isEditing, setIsEditing] = useState(false);
+
+  // const posts = useSelector(st => st.posts);
+  console.log("from <postdetails> the curr post is...", currPost);
+  // let currPost;
+  // if (posts) {
+  //   currPost = posts[postId];
+  // }
 
   // if (!currPost) {
   //   history.push('/');

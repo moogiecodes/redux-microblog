@@ -4,11 +4,30 @@ import {
   UPDATE_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
-  GET_TITLES
+  GET_TITLES,
+  GET_POST
 } from './actionTypes';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/posts'
+
+export function sendPostToAPI(title, description, body) {
+  return async function (dispatch) {
+    const response = await axios.post(`${API_URL}`, {
+      title,
+      description,
+      body
+    });
+    return dispatch(addPost(response.data));
+  };
+}
+
+// function addPost(post) {
+//   return {
+//     type: ADD_POST,
+//     post
+//   };
+// }
 
 export function addPost(post) {
   return {
@@ -55,3 +74,18 @@ export function getTitlesFromApi() {
 function getTitles(titles) {
   return { type: GET_TITLES, titles }
 }
+
+// export function getPostFromAPI(id) {
+//   return async function (dispatch) {
+//     const response = await axios.get(`${API_URL}/${id}`);
+//     return dispatch(getPost(response.data));
+//   };
+// }
+
+// function getPost(post) {
+//   console.log("in actions creator, post response frmo API is...", post);
+//   return {
+//     type: GET_POST,
+//     post
+//   };
+// }

@@ -4,7 +4,8 @@ import {
   UPDATE_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
-  GET_TITLES
+  GET_TITLES,
+  GET_POST
 } from './actions/actionTypes';
 import { v4 as uuid } from 'uuid';
 
@@ -18,11 +19,11 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   let p;
   switch (action.type) {
 
+    // case GET_POST:
+    //   return { ...state, [action.post.id]: action.post };
+
     case ADD_POST:
-      let newPost = {
-        [uuid()]: { ...action.payload.post, comments: [] }
-      };
-      return { posts: { ...state.posts, ...newPost } };
+      return { ...state, posts: { ...state.posts, [action.payload.id]: { ...action.post, comments: [] } } };
 
     case UPDATE_POST:
       postId = action.payload.id;
