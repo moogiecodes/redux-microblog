@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import BlogPostCard from './BlogPostCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTitlesFromApi } from '../actions/actions';
@@ -8,20 +8,19 @@ function TitleList() {
   // const postIds = Object.keys(posts);
   const titles = useSelector(st => st.titles);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     async function getTitles() {
-      try {
-        dispatch(getTitlesFromApi());
-      }
-      catch (err) {
-        console.log(err);
-      }
+      dispatch(getTitlesFromApi()).then(() => setIsLoading(false));
     }
-    getTitles();
-  }, [dispatch]
-  );
+    if (isLoading) {
+      getTitles();
+    }
+  }, [dispatch, isLoading]);
 
+  if (isLoading) return <b>Loading</b>;
 
   const titleList = (titles.map(t => <BlogPostCard
     key={t.id}

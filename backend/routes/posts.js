@@ -101,7 +101,7 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
 
 router.post("/", async function (req, res, next) {
   try {
-    const {title, body, description} = req.body;
+    const { title, body, description } = req.body;
     const result = await db.query(
       `INSERT INTO posts (title, description, body) 
         VALUES ($1, $2, $3) 
@@ -122,7 +122,7 @@ router.post("/", async function (req, res, next) {
 
 router.put("/:id", async function (req, res, next) {
   try {
-    const {title, body, description} = req.body;
+    const { title, body, description } = req.body;
     const result = await db.query(
       `UPDATE posts SET title=$1, description=$2, body=$3
         WHERE id = $4 

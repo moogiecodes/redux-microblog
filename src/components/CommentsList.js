@@ -15,7 +15,7 @@ function CommentsList({ postId, currPost }) {
       key={cId}
       commentId={cId}
       commentText={currPost.comments[cId].text}
-      removeComment={deleteComment} />
+    />
   );
 
   //UPDATE COMMENT button 

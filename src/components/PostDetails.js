@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { removePost, addComment, getPostFromAPI } from '../actions/actions';
 import { Card, CardHeader, CardBody, CardTitle, CardText, Badge } from 'reactstrap';
 import PostForm from './PostForm';
 import CommentsList from './CommentsList';
-import { useSelector, useDispatch } from 'react-redux';
-import { removePost, addComment } from '../actions/actions';
 import CommentForm from './CommentForm';
 
 function PostDetails() {
+
   const [isEditing, setIsEditing] = useState(false);
-  // const { postId } = useParams();
   const postId = Number(useParams().postId);
   const currPost = useSelector(st => st.posts[postId]);
   const dispatch = useDispatch();
   const history = useHistory();
 
+  useEffect(() => {
+    async function getPost() {
+      try {
+        dispatch(getPostFromAPI(postId));
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    if (!currPost) {
+      getPost();
+    }
+  }, [dispatch, currPost, postId]
+  );
   // const posts = useSelector(st => st.posts);
-  console.log("from <postdetails> the curr post is...", currPost);
+  console.log("from <postdetails> the currpost st.posts[postId] is...", currPost);
   // let currPost;
   // if (posts) {
   //   currPost = posts[postId];

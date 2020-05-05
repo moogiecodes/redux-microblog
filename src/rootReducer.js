@@ -19,11 +19,11 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   let p;
   switch (action.type) {
 
-    // case GET_POST:
-    //   return { ...state, [action.post.id]: action.post };
+    case GET_POST:
+      return { ...state, posts: { ...state.posts, [action.post.id]: action.post } };
 
     case ADD_POST:
-      return { ...state, posts: { ...state.posts, [action.payload.id]: { ...action.post, comments: [] } } };
+      return { ...state, posts: { ...state.posts, [action.payload.id]: { ...action.payload.post, comments: [] } } };
 
     case UPDATE_POST:
       postId = action.payload.id;
@@ -75,7 +75,7 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       }
 
     case GET_TITLES:
-      return { posts: state.posts, titles: [...action.titles] }
+      return { ...state, titles: [...action.titles] };
 
     default:
       return state;
