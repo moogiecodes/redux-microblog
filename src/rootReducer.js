@@ -34,45 +34,42 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       return { posts: { ...state.posts, [postId]: updatedPost } }
 
     case REMOVE_POST:
-      postId = action.payload.id;
-
-      let postStateCopy = { ...state };
-      delete postStateCopy.posts[postId]
-      return { ...postStateCopy };
+      let postStateCopy = { ...state.posts };
+      delete postStateCopy.posts[postId];
+      console.log(postStateCopy);
+      return postStateCopy;
 
     case ADD_COMMENT:
-      postId = action.payload.postId;
-      let newComment = { id: uuid(), ...action.payload.comment }
-
-      p = state.posts[postId];
-
       return {
-        posts: {
-          ...state.posts,
-          [postId]: {
-            ...p,
-            comments: [...p.comments, newComment]
-          }
-        }
-      }
+        ...state, posts: { ...state.posts, [action.postId]: { ...state.posts[action.postId], comments: [...state.posts[action.postId].comments, action.comment] } }
+      };
 
     case REMOVE_COMMENT:
-      postId = action.payload.postId;
-      let commentId = action.payload.commentId;
-      let commentStateCopy = [...state.posts[postId].comments];
+      // postId = action.postId;
+      // let commentId = action.commentId;
+      // let commentStateCopy = [...state.posts[postId].comments];
 
-      let updatedComments = commentStateCopy.filter(c => c.id !== commentId)
-
+      // let updatedComments = commentStateCopy.filter(c => c.id !== commentId)
       p = state.posts[postId];
+      console.log("in REMOVE_COMMENT, state.posts[postId] is...", p);
       return {
+        ...state,
+        // [action.postId]: {
+        //   ...p,
+        //   comments: p.comments.filter(c => c.id !== action.commentId)
+        // }
         posts: {
           ...state.posts,
-          [postId]: {
-            ...p,
-            comments: [...updatedComments]
-          }
+          [action.postId]: { ...p, comments: p.comments.filter(c => c.id !== action.commentId) }
         }
       }
+
+    // return {
+    //   ...state,
+    //   [action.postId]: {
+    //     ...p, comments: p.comments.filter(c => c.id !== action.commentId)
+    //   }
+    // };
 
     case GET_TITLES:
       return { ...state, titles: [...action.titles] };

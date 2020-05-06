@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Col, FormGroup, Form, Label, Input, Container, Button } from 'reactstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addPost, updatePost } from '../actions/actions';
+import { updatePost } from '../actions/actions';
 import { sendPostToAPI } from '../actions/actions';
 
 
-function PostForm({ isEditing, setIsEditing, currPost, id }) {
+function PostForm({ isEditing, toggleEdit, currPost, id }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,8 +40,7 @@ function PostForm({ isEditing, setIsEditing, currPost, id }) {
     e.preventDefault();
     // NG - props was declared as postId in PostForm but id was expected in from PostDetails.
     dispatch(updatePost(form, id));
-
-    setIsEditing(!isEditing);
+    toggleEdit();
   }
 
   const handleChange = e => {
@@ -64,7 +63,7 @@ function PostForm({ isEditing, setIsEditing, currPost, id }) {
   let editFormButtons = (
     <span>
       <button className="NewPostForm-button ml-1 mr-1 mt-5" onClick={editPost}>Save</button>
-      <button className="Cancel-button ml-1 mr-1 mt-5" onClick={() => setIsEditing(!isEditing)}>Cancel</button>
+      <button className="Cancel-button ml-1 mr-1 mt-5" onClick={toggleEdit}>Cancel</button>
     </span>
   );
   return (

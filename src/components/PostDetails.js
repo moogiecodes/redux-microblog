@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { removePost, addComment, getPostFromAPI } from '../actions/actions';
+import { removePostFromAPI, getPostFromAPI } from '../actions/actions';
 import { Card, CardHeader, CardBody, CardTitle, CardText, Badge } from 'reactstrap';
 import PostForm from './PostForm';
 import CommentsList from './CommentsList';
-import CommentForm from './CommentForm';
 
 function PostDetails() {
 
@@ -14,6 +13,14 @@ function PostDetails() {
   const currPost = useSelector(st => st.posts[postId]);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  /** Toggle editing on/off */
+
+  function toggleEdit() {
+    setIsEditing(edit => !edit);
+  }
+
+  /** If we don't have the post, request it from API. */
 
   useEffect(() => {
     async function getPost() {
@@ -27,27 +34,16 @@ function PostDetails() {
     if (!currPost) {
       getPost();
     }
-  }, [dispatch, currPost, postId]
-  );
-  // const posts = useSelector(st => st.posts);
-  console.log("from <postdetails> the currpost st.posts[postId] is...", currPost);
-  // let currPost;
-  // if (posts) {
-  //   currPost = posts[postId];
-  // }
+  }, [dispatch, currPost, postId]);
 
-  // if (!currPost) {
-  //   history.push('/');
-  // }
-  const updateComments = (fData) => {
-    dispatch(addComment(fData, postId));
+  /** Handle post deletion: deletes from backend. */
+
+  function deletePost() {
+    dispatch(removePostFromAPI(postId));
+    history.push("/");
   }
-  const deletePost = () => {
-    dispatch(removePost(postId));
-    // NG - 03/12/20 - 5:39 PM added history.push('/') to redirect
-    // after deleting post
-    history.push('/');
-  }
+
+  console.log("from <postdetails> the currpost st.posts[postId] is...", currPost);
 
   let postDetails;
   if (currPost) {
@@ -58,12 +54,11 @@ function PostDetails() {
           <CardBody>
             <CardTitle className="text-left">{currPost.description}</CardTitle>
             <CardText className="text-left">{currPost.body}</CardText>
-            <Badge onClick={() => setIsEditing(!isEditing)} color="primary">Edit</Badge>
+            <Badge onClick={toggleEdit} color="primary">Edit</Badge>
             <Badge onClick={deletePost} color="danger">Delete</Badge>
           </CardBody>
         </Card>
         <CommentsList postId={postId} currPost={currPost} />
-        <CommentForm updateComments={updateComments} />
       </div>
     )
   } else {
@@ -74,7 +69,8 @@ function PostDetails() {
     <div>
       {isEditing ?
         <PostForm isEditing={isEditing}
-          setIsEditing={setIsEditing}
+          // setIsEditing={setIsEditing}
+          toggleEdit={toggleEdit}
           currPost={currPost}
           id={postId} /> :
         postDetails

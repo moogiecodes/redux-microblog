@@ -20,7 +20,7 @@ function TitleList() {
     }
   }, [dispatch, isLoading]);
 
-  if (isLoading) return <b>Loading</b>;
+  if (isLoading) return <b>Loading...</b>;
 
   const titleList = (titles.map(t => <BlogPostCard
     key={t.id}

@@ -1,13 +1,17 @@
 import React from 'react';
 import { ListGroupItem, Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
-import { removeComment } from '../actions/actions';
+import { removeCommentFromAPI } from '../actions/actions';
 
-function CommentItem({ postId, deleteComment, commentText, commentId }) {
+function CommentItem({ postId, commentText, commentId }) {
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch(removeComment(postId, commentId));
+    dispatch(removeCommentFromAPI(postId, commentId));
   }
+
+  // const deleteComment = (commentId) => {
+  //   dispatch(removeCommentFromAPI(postId, commentId));
+  // }
 
   return (
     <ListGroupItem className="text-left">

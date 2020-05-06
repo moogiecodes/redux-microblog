@@ -1,14 +1,16 @@
 import React from 'react';
-import CommentForm from './CommentForm';
 import { ListGroup } from 'reactstrap';
-import CommentItem from './CommentItem';
 import { useDispatch } from 'react-redux';
-import { addComment, removeComment } from '../actions/actions';
+import { sendCommentToAPI } from '../actions/actions';
+import CommentForm from './CommentForm';
+import CommentItem from './CommentItem';
 
 function CommentsList({ postId, currPost }) {
   const dispatch = useDispatch();
 
   const commentIds = Object.keys(currPost.comments);
+  console.log("comment ids", commentIds);
+  console.log("currPost comments in comments list is...", currPost.comments);
   const comments = commentIds.map(cId =>
     <CommentItem
       postId={currPost.id}
@@ -18,13 +20,11 @@ function CommentsList({ postId, currPost }) {
     />
   );
 
-  //UPDATE COMMENT button 
+  /** Handle adding a comment: adds to backend. 
+   * Called from Comment Form "Add" comment button
+  */
   const updateComments = (fData) => {
-    dispatch(addComment(fData, postId));
-  }
-
-  const deleteComment = (commentId) => {
-    dispatch(removeComment(postId, commentId));
+    dispatch(sendCommentToAPI(postId, fData.text));
   }
 
   return (

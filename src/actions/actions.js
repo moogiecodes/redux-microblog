@@ -29,13 +29,6 @@ export function addPost(post) {
   }
 }
 
-// function addPost(post) {
-//   return {
-//     type: ADD_POST,
-//     post
-//   };
-// }
-
 export function updatePost(post, id) {
   return {
     type: UPDATE_POST,
@@ -43,25 +36,51 @@ export function updatePost(post, id) {
   }
 }
 
-export function removePost(id) {
+export function removePostFromAPI(id) {
+  return async function (dispatch) {
+    await axios.delete(`${API_URL}/${id}`);
+    return dispatch(removePost(id));
+  };
+}
+
+function removePost(postId) {
   return {
     type: REMOVE_POST,
-    payload: { id }
-  }
+    postId
+  };
+}
+// export function removePost(id) {
+//   return {
+//     type: REMOVE_POST,
+//     payload: { id }
+//   }
+// }
+
+export function removeCommentFromAPI(postId, commentId) {
+  return async function (dispatch) {
+    await axios.delete(`${API_URL}/${postId}/comments/${commentId}`);
+    return dispatch(removeComment(postId, commentId));
+  };
 }
 
-export function addComment(comment, postId) {
-  return {
-    type: ADD_COMMENT,
-    payload: { comment, postId }
-  }
-}
-
-export function removeComment(postId, commentId) {
+function removeComment(postId, commentId) {
   return {
     type: REMOVE_COMMENT,
-    payload: { postId, commentId }
-  }
+    postId,
+    commentId,
+  };
+}
+
+export function sendCommentToAPI(postId, text) {
+  return async function (dispatch) {
+    const result = await axios.post(`${API_URL}/${postId}/comments/`, { text });
+    return dispatch(addComment(postId, result.data));
+  };
+}
+
+function addComment(postId, comment) {
+  console.log("in addComment action creator, comment is...", comment);
+  return { type: ADD_COMMENT, postId, comment };
 }
 
 export function getTitlesFromApi() {
@@ -75,7 +94,6 @@ function getTitles(titles) {
   return { type: GET_TITLES, titles }
 }
 
-// below prev commented out 
 export function getPostFromAPI(id) {
   return async function (dispatch) {
     const res = await axios.get(`${API_URL}/${id}`);

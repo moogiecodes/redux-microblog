@@ -23,7 +23,6 @@ function App() {
         </Route>
         <Redirect to="/" />
       </Switch>
-
     </div>
   );
 }
