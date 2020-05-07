@@ -4,6 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTitlesFromApi } from '../actions/actions';
 
 function TitleList() {
+  const cardGroup = {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap',
+    spaceBetween: 'even',
+    padding: '5px',
+    margin: '5% auto',
+  };
+
   const titles = useSelector(st => st.titles);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +37,7 @@ function TitleList() {
   />))
 
   return (
-    <div>
+    <div style={cardGroup}>
       {titleList}
     </div>
   );
