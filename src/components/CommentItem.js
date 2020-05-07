@@ -9,10 +9,6 @@ function CommentItem({ postId, commentText, commentId }) {
     dispatch(removeCommentFromAPI(postId, commentId));
   }
 
-  // const deleteComment = (commentId) => {
-  //   dispatch(removeCommentFromAPI(postId, commentId));
-  // }
-
   return (
     <ListGroupItem className="text-left">
       <Button size="sm" onClick={handleDelete}>X</Button> {''}

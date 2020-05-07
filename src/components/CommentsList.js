@@ -7,10 +7,8 @@ import CommentItem from './CommentItem';
 
 function CommentsList({ postId, currPost }) {
   const dispatch = useDispatch();
-
   const commentIds = Object.keys(currPost.comments);
-  console.log("comment ids", commentIds);
-  console.log("currPost comments in comments list is...", currPost.comments);
+
   const comments = commentIds.map(cId =>
     <CommentItem
       postId={currPost.id}

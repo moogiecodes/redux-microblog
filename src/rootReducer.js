@@ -7,7 +7,6 @@ import {
   GET_TITLES,
   GET_POST
 } from './actions/actionTypes';
-import { v4 as uuid } from 'uuid';
 
 const INITIAL_STATE = {
   posts: {},
@@ -15,7 +14,6 @@ const INITIAL_STATE = {
 }
 
 export default function rootReducer(state = INITIAL_STATE, action) {
-  let postId;
   let p;
   switch (action.type) {
 
@@ -26,18 +24,18 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, posts: { ...state.posts, [action.payload.id]: { ...action.payload.post, comments: [] } } };
 
     case UPDATE_POST:
-      postId = action.payload.id;
+      // postId = action.id;
       let updatedPost = {
-        ...action.payload.post,
-        comments: [...state.posts[postId].comments]
+        ...action.post,
+        comments: [...state.posts[action.post.id].comments]
       };
-      return { posts: { ...state.posts, [postId]: updatedPost } }
+      return { ...state, posts: { ...state.posts, [action.post.id]: updatedPost } }
 
+    // ISSUE: SEEMS TO BE A STRANGE DELAY IN DELETED POSTS ON RENDER...?
     case REMOVE_POST:
-      let postStateCopy = { ...state.posts };
-      delete postStateCopy.posts[postId];
-      console.log(postStateCopy);
-      return postStateCopy;
+      let posts = { ...state.posts };
+      delete posts[action.postId];
+      return { ...state, posts };
 
     case ADD_COMMENT:
       p = state.posts[action.postId];

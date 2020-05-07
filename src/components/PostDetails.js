@@ -7,7 +7,6 @@ import PostForm from './PostForm';
 import CommentsList from './CommentsList';
 
 function PostDetails() {
-
   const [isEditing, setIsEditing] = useState(false);
   const postId = Number(useParams().postId);
   const currPost = useSelector(st => st.posts[postId]);
@@ -39,15 +38,27 @@ function PostDetails() {
   /** Handle post deletion: deletes from backend. */
 
   function deletePost() {
-    dispatch(removePostFromAPI(postId));
+    try {
+      dispatch(removePostFromAPI(postId));
+    }
+    catch (err) {
+      console.log(err);
+    }
     history.push("/");
   }
 
   console.log("from <postdetails> the currpost st.posts[postId] is...", currPost);
 
-  let postDetails;
+  /** Render:
+   *
+   * - if no post yet, loading message
+   * - if editing, the edit form & comments list
+   * - if not, the display & comments
+   */
+
+  let postDisplay;
   if (currPost) {
-    postDetails = (
+    postDisplay = (
       <div>
         <Card className="text-left" >
           <CardHeader className="text-left">{currPost.title}</CardHeader>
@@ -61,19 +72,18 @@ function PostDetails() {
         <CommentsList postId={postId} currPost={currPost} />
       </div>
     )
-  } else {
-    postDetails = null;
-  }
+  } else postDisplay = null;
+
+  if (!currPost) return <p>Loading</p>;
 
   return (
     <div>
       {isEditing ?
         <PostForm isEditing={isEditing}
-          // setIsEditing={setIsEditing}
           toggleEdit={toggleEdit}
           currPost={currPost}
           id={postId} /> :
-        postDetails
+        postDisplay
       }
     </div>
 

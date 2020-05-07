@@ -4,12 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTitlesFromApi } from '../actions/actions';
 
 function TitleList() {
-  // const posts = useSelector(st => st.posts);
-  // const postIds = Object.keys(posts);
   const titles = useSelector(st => st.titles);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     async function getTitles() {

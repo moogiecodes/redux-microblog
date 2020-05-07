@@ -29,11 +29,22 @@ export function addPost(post) {
   }
 }
 
-export function updatePost(post, id) {
+export function updatePostInAPI(id, title, description, body) {
+  return async function (dispatch) {
+    const response = await axios.put(`${API_URL}/${id}`, {
+      title,
+      description,
+      body
+    });
+    return dispatch(updatePost(response.data));
+  };
+}
+
+function updatePost(post) {
   return {
     type: UPDATE_POST,
-    payload: { post, id }
-  }
+    post
+  };
 }
 
 export function removePostFromAPI(id) {
@@ -49,12 +60,6 @@ function removePost(postId) {
     postId
   };
 }
-// export function removePost(id) {
-//   return {
-//     type: REMOVE_POST,
-//     payload: { id }
-//   }
-// }
 
 export function removeCommentFromAPI(postId, commentId) {
   return async function (dispatch) {
@@ -79,7 +84,6 @@ export function sendCommentToAPI(postId, text) {
 }
 
 function addComment(postId, comment) {
-  console.log("in addComment action creator, comment is...", comment);
   return { type: ADD_COMMENT, postId, comment };
 }
 

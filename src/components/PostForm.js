@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Col, FormGroup, Form, Label, Input, Container, Button } from 'reactstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updatePost } from '../actions/actions';
-import { sendPostToAPI } from '../actions/actions';
+import { updatePostInAPI } from '../actions/actions';
 
 
-function PostForm({ isEditing, toggleEdit, currPost, id }) {
+function PostForm({ add, isEditing, toggleEdit, currPost, id }) {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   let INITIAL_STATE = {
     title: "",
@@ -16,7 +14,7 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
     body: ""
   };
 
-  // NG - uses currPost data to fill in form when editing. 
+  // Uses currPost data to fill in form when editing. 
   if (currPost) {
     INITIAL_STATE = {
       title: currPost.title,
@@ -24,24 +22,13 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
       body: currPost.body
     };
   }
-
   const [form, setForm] = useState(INITIAL_STATE);
 
-  // SAVE button (add new post)
-  const newPost = e => {
+  /** Calls parent add() for dispatching new post to API */
+  function handleSubmit(e) {
     e.preventDefault();
-    console.log("ADDED NEW POST...FORM IS..", form);
-    dispatch(sendPostToAPI(form.title, form.description, form.body));
-    history.push('/');
-  }
-
-  // SAVE button (edit existing post)
-  const editPost = e => {
-    // NG - added e.preventDefault
-    e.preventDefault();
-    // NG - props was declared as postId in PostForm but id was expected in from PostDetails.
-    dispatch(updatePost(form, id));
-    toggleEdit();
+    console.log("HANDLE SUBMIT IN POSTFORM ");
+    add(form);
   }
 
   const handleChange = e => {
@@ -52,9 +39,26 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
     }));
   };
 
+  /** Handle post editing: updates to backend. 
+   * SAVE button (editing existing post)
+  */
+
+  function editPost() {
+    dispatch(updatePostInAPI(
+      id,
+      form.title,
+      form.description,
+      form.body
+    ));
+
+    toggleEdit();
+  }
+
+  /** Form buttons for new post & editing existing post */
+
   let newFormButtons = (
     <span>
-      <Button className="NewPostForm-button ml-2 mr-2 mt-5" onClick={newPost}>Save</Button>
+      <Button className="NewPostForm-button ml-2 mr-2 mt-5" onSubmit={handleSubmit}>Save</Button>
       <Link to="/">
         <Button className="Cancel-button ml-2 mr-2 mt-5">Cancel</Button>
       </Link>
@@ -67,11 +71,12 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
       <button className="Cancel-button ml-1 mr-1 mt-5" onClick={toggleEdit}>Cancel</button>
     </span>
   );
+
   return (
     <Container className="themed-container" fluid="sm">
       <FormGroup row>
         <Col sm="12" md={{ size: 6, offset: 3 }}>
-          <Form className='mx-auto'>
+          <Form className='mx-auto' onSubmit={handleSubmit}>
             <Label htmlFor="title" className='float-left'>Title: </Label>
             <Input
               id="title"
@@ -97,7 +102,11 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
               onChange={handleChange}
               bsSize='sm'
             />
-            {isEditing ? editFormButtons : newFormButtons}
+            {isEditing ?
+              editFormButtons
+              :
+              newFormButtons
+            }
           </Form>
         </Col>
       </FormGroup>
