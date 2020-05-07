@@ -15,6 +15,7 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
     description: "",
     body: ""
   };
+
   // NG - uses currPost data to fill in form when editing. 
   if (currPost) {
     INITIAL_STATE = {
@@ -26,7 +27,7 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
 
   const [form, setForm] = useState(INITIAL_STATE);
 
-  //SAVE button (add new post)
+  // SAVE button (add new post)
   const newPost = e => {
     e.preventDefault();
     console.log("ADDED NEW POST...FORM IS..", form);
@@ -34,7 +35,7 @@ function PostForm({ isEditing, toggleEdit, currPost, id }) {
     history.push('/');
   }
 
-  //SAVE button (edit existing post)
+  // SAVE button (edit existing post)
   const editPost = e => {
     // NG - added e.preventDefault
     e.preventDefault();

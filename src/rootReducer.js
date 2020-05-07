@@ -40,36 +40,24 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       return postStateCopy;
 
     case ADD_COMMENT:
+      p = state.posts[action.postId];
       return {
-        ...state, posts: { ...state.posts, [action.postId]: { ...state.posts[action.postId], comments: [...state.posts[action.postId].comments, action.comment] } }
+        ...state,
+        posts: {
+          ...state.posts,
+          [action.postId]: { ...p, comments: [...p.comments, action.comment] }
+        }
       };
 
     case REMOVE_COMMENT:
-      // postId = action.postId;
-      // let commentId = action.commentId;
-      // let commentStateCopy = [...state.posts[postId].comments];
-
-      // let updatedComments = commentStateCopy.filter(c => c.id !== commentId)
-      p = state.posts[postId];
-      console.log("in REMOVE_COMMENT, state.posts[postId] is...", p);
+      p = state.posts[action.postId];
       return {
         ...state,
-        // [action.postId]: {
-        //   ...p,
-        //   comments: p.comments.filter(c => c.id !== action.commentId)
-        // }
         posts: {
           ...state.posts,
           [action.postId]: { ...p, comments: p.comments.filter(c => c.id !== action.commentId) }
         }
       }
-
-    // return {
-    //   ...state,
-    //   [action.postId]: {
-    //     ...p, comments: p.comments.filter(c => c.id !== action.commentId)
-    //   }
-    // };
 
     case GET_TITLES:
       return { ...state, titles: [...action.titles] };

@@ -15,7 +15,7 @@ function CommentsList({ postId, currPost }) {
     <CommentItem
       postId={currPost.id}
       key={cId}
-      commentId={cId}
+      commentId={currPost.comments[cId].id}
       commentText={currPost.comments[cId].text}
     />
   );
