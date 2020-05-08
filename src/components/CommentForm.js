@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Container, Col, FormGroup, Form, Input, Button } from 'reactstrap';
 
 function CommentForm({ updateComments }) {
+  const cmtFormContainer = {
+    margin: '8% auto'
+  }
+
   const INITIAL_STATE = {
     text: ""
   }
@@ -20,9 +24,9 @@ function CommentForm({ updateComments }) {
     updateComments(form);
     setForm(INITIAL_STATE);
   }
-  
+
   return (
-    <Container className="themed-container " fluid="sm">
+    <Container className="themed-container " fluid="sm" style={cmtFormContainer}>
       <FormGroup row>
         <Col sm="12" md={{ size: 6, offset: 3 }}>
           <Form className='mx-auto'>

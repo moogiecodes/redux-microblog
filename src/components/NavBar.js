@@ -16,6 +16,8 @@ function NavBar() {
           Add a new post
         </NavLink>
       </span>
+      <hr className="my-2" />
+      <p>Your centralized site for open "micro" blogging!</p>
     </Jumbotron>
   )
 }

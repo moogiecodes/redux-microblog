@@ -6,6 +6,9 @@ import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
 
 function CommentsList({ postId, currPost }) {
+  const cmtContainer = {
+    margin: '10% auto'
+  }
   const dispatch = useDispatch();
   const commentIds = Object.keys(currPost.comments);
 
@@ -26,7 +29,7 @@ function CommentsList({ postId, currPost }) {
   }
 
   return (
-    <div>
+    <div style={cmtContainer}>
       <h1>Comments</h1>
       <ListGroup>
         {comments}
