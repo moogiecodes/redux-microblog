@@ -24,14 +24,12 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, posts: { ...state.posts, [action.payload.id]: { ...action.payload.post, comments: [] } } };
 
     case UPDATE_POST:
-      // postId = action.id;
       let updatedPost = {
         ...action.post,
         comments: [...state.posts[action.post.id].comments]
       };
       return { ...state, posts: { ...state.posts, [action.post.id]: updatedPost } }
 
-    // ISSUE: SEEMS TO BE A STRANGE DELAY IN DELETED POSTS ON RENDER...?
     case REMOVE_POST:
       let posts = { ...state.posts };
       delete posts[action.postId];

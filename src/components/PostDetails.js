@@ -47,10 +47,7 @@ function PostDetails() {
     history.push("/");
   }
 
-  console.log("from <postdetails> the currpost st.posts[postId] is...", currPost);
-
   /** Render:
-   *
    * - if no post yet, loading message
    * - if editing, the edit form & comments list
    * - if not, the display & comments

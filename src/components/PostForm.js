@@ -14,7 +14,8 @@ function PostForm({ add, isEditing, toggleEdit, currPost, id }) {
     body: ""
   };
 
-  // Uses currPost data to fill in form when editing. 
+  /** Uses currPost data to fill in form when editing. */
+
   if (currPost) {
     INITIAL_STATE = {
       title: currPost.title,
@@ -25,6 +26,7 @@ function PostForm({ add, isEditing, toggleEdit, currPost, id }) {
   const [form, setForm] = useState(INITIAL_STATE);
 
   /** Calls parent add() for dispatching new post to API */
+
   function handleSubmit(e) {
     e.preventDefault();
     console.log("HANDLE SUBMIT IN POSTFORM ");
