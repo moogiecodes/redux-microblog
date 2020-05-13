@@ -29,7 +29,6 @@ function PostForm({ add, isEditing, toggleEdit, currPost, id }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("HANDLE SUBMIT IN POSTFORM ");
     add(form);
   }
 
